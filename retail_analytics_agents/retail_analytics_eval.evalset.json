@@ -1,0 +1,407 @@
+{
+  "eval_set_id": "retail_analytics_eval",
+  "name": "Retail Analytics Multi-Agent Evaluation",
+  "description": "Tests routing, tool selection, and response quality for the retail analytics multi-agent system across inventory, sales, and customer domains.",
+  "eval_cases": [
+    {
+      "eval_id": "inventory_stockout_check",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_01",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_stockout",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Which products are at risk of stockout?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "inventory_analyst"
+              }
+            },
+            {
+              "tool_name": "get_inventory_stockout_risk"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Several products are currently at risk of stockout with 0 units in stock. These products have stock levels below their reorder points and require immediate replenishment to prevent lost sales."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "inventory_overstock_check",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_02",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_overstock",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Are any products overstocked right now?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "inventory_analyst"
+              }
+            },
+            {
+              "tool_name": "get_overstock_products"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Yes, there are products with stock levels significantly above their reorder points. These overstocked items are tying up capital and may need inventory reduction strategies such as promotions or redistribution to other stores."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "inventory_regional_summary",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_03",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_inv_region",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "How is our inventory distributed across regions?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "inventory_analyst"
+              }
+            },
+            {
+              "tool_name": "get_inventory_summary_by_region"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Inventory is distributed across AMERICAS, EMEA, and APAC regions. The summary shows total stock levels, average quantities, and the number of items below reorder point or in stockout status for each region."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "sales_top_products",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_04",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_top_products",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "What are the top 5 products by revenue?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "sales_analyst"
+              }
+            },
+            {
+              "tool_name": "get_top_products_by_revenue"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The top 5 products by revenue are all in the Electronics category, with total revenues ranging from approximately $1.8 million to $2.2 million each. TechPro and DigitalEdge are the leading brands."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "sales_regional_revenue",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_05",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_region_revenue",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Break down our revenue by region"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "sales_analyst"
+              }
+            },
+            {
+              "tool_name": "get_revenue_by_region"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Revenue is distributed across three regions. AMERICAS leads with approximately 40% of total revenue, followed by EMEA at around 36%, and APAC at approximately 24%. Total revenue across all regions is approximately $214 million."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "sales_monthly_trends",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_06",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_monthly_trends",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Show me the monthly sales trends"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "sales_analyst"
+              }
+            },
+            {
+              "tool_name": "get_sales_trends_by_month"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Monthly sales data shows revenue trends over the past year. Sales showed a consistent growth trajectory with peak monthly revenue in December. The data includes transaction counts, monthly revenue totals, and average transaction values."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "sales_category_breakdown",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_07",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_categories",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Which product categories generate the most revenue?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "sales_analyst"
+              }
+            },
+            {
+              "tool_name": "get_revenue_by_category"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Electronics is the top revenue category, accounting for approximately 46% of total revenue, followed by Home products. Clothing, Beauty, and Grocery contribute smaller shares. Margins vary by category, with Beauty and Clothing showing higher average margins."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "customer_segments",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_08",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_segments",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "What are our customer segments and their average spending?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "customer_strategist"
+              }
+            },
+            {
+              "tool_name": "get_customer_segments"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "Our customers are segmented into groups based on their purchasing behavior. The segments vary in customer count, average lifetime revenue, order frequency, and average order value. The data shows distinct spending patterns across segments."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "customer_top_spenders",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_09",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_top_customers",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "Who are our top 10 customers by lifetime revenue?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "customer_strategist"
+              }
+            },
+            {
+              "tool_name": "get_top_customers"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The top 10 customers by lifetime revenue include high-value buyers across different segments and loyalty tiers. These customers show significant lifetime orders and revenue, representing our most valuable customer relationships."
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "eval_id": "customer_loyalty_tiers",
+      "session_input": {
+        "app_name": "retail_analytics_agents",
+        "user_id": "eval_user_10",
+        "state": {}
+      },
+      "conversation": [
+        {
+          "invocation_id": "turn_1_loyalty",
+          "user_content": {
+            "role": "user",
+            "parts": [
+              {
+                "text": "How do our loyalty tiers compare in terms of spending?"
+              }
+            ]
+          },
+          "expected_tool_use": [
+            {
+              "tool_name": "transfer_to_agent",
+              "tool_input": {
+                "agent_name": "customer_strategist"
+              }
+            },
+            {
+              "tool_name": "get_loyalty_tier_analysis"
+            }
+          ],
+          "final_response": {
+            "role": "model",
+            "parts": [
+              {
+                "text": "The loyalty tier analysis shows different spending patterns across tiers. Higher loyalty tiers generally correlate with greater lifetime revenue and order frequency, demonstrating the value of our loyalty program."
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
