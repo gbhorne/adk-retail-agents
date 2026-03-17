@@ -156,7 +156,6 @@ adk-retail-agents/
         test_config.json                         # Eval criteria thresholds
     docs/
         ARCHITECTURE.md                          # Architecture decision records
-        BUILD_GUIDE.md                           # Full build walkthrough
         QA_GUIDE.md                              # Q&A reference
         architecture_diagram.svg
         screenshots/

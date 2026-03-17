@@ -6,19 +6,6 @@ This document provides a full explanation of how this project was built from scr
 
 ---
 
-## Table of Contents
-
-1. Prerequisites and Dependencies
-2. Local Environment Setup
-3. Google Cloud Authentication
-4. Gemini API Configuration
-5. Project Structure and File Roles
-6. Agent Code Walkthrough
-7. Tool Code Walkthrough
-8. Running and Testing the System
-9. Evaluation Framework
-10. Verification Script
-11. Troubleshooting
 
 ---
 
@@ -44,8 +31,8 @@ This document provides a full explanation of how this project was built from scr
 
 | Account | Purpose | Cost |
 |---------|---------|------|
-| GCP project | BigQuery data warehouse | Free (sandbox) |
-| Google AI Studio | Gemini API key | Free (no credit card) |
+| GCP project | BigQuery data warehouse | No Cost |
+| Google AI Studio | Gemini API key | No Cost |
 
 ---
 
@@ -496,34 +483,6 @@ The `verify.sh` script runs 62 checks in Google Cloud Shell to validate the enti
 Run in Cloud Shell:
 
 ```bash
-chmod +x verify.sh
 ./verify.sh
 ```
 
----
-
-## 11. Troubleshooting
-
-### "No agents found in current folder"
-
-Run `adk web .` from the parent directory of `retail_analytics_agents/`, not from inside it. ADK scans subdirectories for packages with `agent.py`.
-
-### "Table not found" errors from agents
-
-The gold layer tables may not exist. Run `rebuild.sh` in Cloud Shell to create them. Verify with `bq ls retail_gold`.
-
-### "running scripts is disabled on this system"
-
-Run `Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned` in PowerShell, then retry.
-
-### gcloud "not recognized"
-
-Close and reopen PowerShell after installing Google Cloud SDK. The PATH update requires a new terminal session.
-
-### "GOOGLE_API_KEY" not working
-
-Make sure the `.env` file is inside `retail_analytics_agents/` (not just the project root). ADK looks for `.env` in the agent package directory.
-
-### BigQuery "permission denied"
-
-Run `gcloud auth application-default login` again. Credentials may have expired, especially on sandbox environments with time limits.

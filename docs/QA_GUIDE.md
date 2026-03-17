@@ -47,7 +47,7 @@ Gemini 2.5 Flash provides strong reasoning at low latency and is available on th
 
 **Q: Why use AI Studio instead of Vertex AI for the Gemini API?**
 
-The GCP sandbox environment blocks `aiplatform.googleapis.com`, which is the Vertex AI endpoint. AI Studio uses a different endpoint (`generativelanguage.googleapis.com`) that is not blocked. Both provide access to the same Gemini models with the same quality. The only difference is rate limits: AI Studio has a lower free tier than Vertex AI's paid tier. For production deployment, switching to Vertex AI requires changing two environment variables, not rewriting code.
+The Vertex AI endpoint (`aiplatform.googleapis.com`) requires a billing-enabled GCP project. AI Studio uses a different endpoint (`generativelanguage.googleapis.com`) that works with a free API key and no billing required. Both provide access to the same Gemini models with the same quality. The only difference is rate limits: AI Studio has a lower free tier than Vertex AI's paid tier. For production deployment, switching to Vertex AI requires changing two environment variables, not rewriting code.
 
 **Q: Why fixed SQL queries instead of letting the agent generate SQL dynamically?**
 
@@ -125,7 +125,7 @@ Approximately $214 million across three regions: AMERICAS (40.36%, $86.37M), EME
 
 **Q: Why did the gold layer need to be rebuilt?**
 
-The Terraform IaC project only created the bronze layer tables (raw data ingested from CSV files). The silver layer (cleaned, validated data) and gold layer (star schema with business metrics) require additional SQL transformations that run as part of The Enterprise Analytics project's build process. When we started this project, the `retail_gold` dataset existed but was empty. Running `rebuild.sh` in Cloud Shell populated all three layers in about 15 minutes.
+The Terraform IaC project only created the bronze layer tables (raw data ingested from CSV files). The silver layer (cleaned, validated data) and gold layer (star schema with business metrics) require additional SQL transformations that run as part of The Enterprise Analytics project's build process. When we started this project, the `retail_gold` dataset existed but was empty. Running `rebuild.sh` populated all three layers in about 15 minutes.
 
 **Q: What schema issues did you encounter?**
 
@@ -193,7 +193,7 @@ Three inventory tests: stockout risk, overstock detection, and regional inventor
 
 **Q: What is the verification script and what does it check?**
 
-The verification script (`verify.sh`) runs 62 checks in Google Cloud Shell to validate the entire data layer that supports the agents. It checks that all 5 BigQuery datasets exist, all 7 gold layer tables have the expected minimum row counts, 20+ critical columns are populated (not null), all 11 agent tool queries execute successfully against live data, and data integrity is maintained (revenue totals, region coverage, margin ranges). It produces a PASS/FAIL report for each check.
+The verification script (`verify.sh`) runs 62 checks to validate the entire data layer that supports the agents. It checks that all 5 BigQuery datasets exist, all 7 gold layer tables have the expected minimum row counts, 20+ critical columns are populated (not null), all 11 agent tool queries execute successfully against live data, and data integrity is maintained (revenue totals, region coverage, margin ranges). It produces a PASS/FAIL report for each check.
 
 ---
 
@@ -253,7 +253,7 @@ Add a new tool function to `tools.py` and assign it to the appropriate agent (or
 
 **Q: Could this system use text-to-SQL for ad-hoc queries?**
 
-Yes, as a future enhancement. You could add a "power user" agent that generates SQL from natural language using the schema as context. This would handle questions outside the predefined 11 tools. The risk mitigation approach would be to run generated SQL in a read-only sandbox with query cost limits, validate the SQL before execution, and log all generated queries for audit. This would complement rather than replace the fixed-query tools.
+Yes, as a future enhancement. You could add a "power user" agent that generates SQL from natural language using the schema as context. This would handle questions outside the predefined 11 tools. The risk mitigation approach would be to run generated SQL in a read-only context with query cost limits, validate the SQL before execution, and log all generated queries for audit. This would complement rather than replace the fixed-query tools.
 
 ---
 
@@ -261,7 +261,7 @@ Yes, as a future enhancement. You could add a "power user" agent that generates 
 
 **Q: What does this cost to run?**
 
-$0. The entire system runs on free resources: GCP sandbox for BigQuery, Gemini free tier through AI Studio (no credit card required), and local Python execution for the agent framework. There are no cloud compute costs because the agent runs locally.
+$0. The entire system runs on free resources: BigQuery free tier, Gemini free tier through AI Studio (no credit card required), and local Python execution for the agent framework. There are no cloud compute costs because the agent runs locally.
 
 **Q: What GCP services are used?**
 

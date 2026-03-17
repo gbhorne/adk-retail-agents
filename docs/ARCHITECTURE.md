@@ -22,10 +22,10 @@
 
 **Decision:** Use Gemini 2.5 Flash through the AI Studio Developer API, not Vertex AI.
 
-**Context:** GCP sandbox environments block `aiplatform.googleapis.com`, making Vertex AI unavailable. Gemini is accessible through two separate endpoints.
+**Context:** Vertex AI (`aiplatform.googleapis.com`) requires a billing-enabled GCP project. Gemini is also accessible through the AI Studio endpoint without billing.
 
 **Rationale:**
-- AI Studio API uses `generativelanguage.googleapis.com`, which is not blocked by sandbox
+- AI Studio API uses `generativelanguage.googleapis.com`, which works without a billing-enabled project
 - Free tier: 15 RPM, 1,500 requests per day, sufficient for development and demos
 - No credit card required
 - Gemini 2.5 Flash provides strong reasoning at low latency
